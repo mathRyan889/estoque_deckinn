@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estoque de EVA</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 50px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid white;
+            width: 33%; /* Distribuição igual das colunas */
+        }
+
+        th {
+            background-color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #444;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            display: inline-block;
+            margin-top: 20px;
+            border: 1px solid white;
+            background-color: #333;
+        }
+
+        a:hover {
+            background-color: #555;
+        }
+
+        h1 {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Deckinn</div>
+
+    <h1>---------------------------------------</h1>
+    <p1>Estoque<p1>
+    <table>
+        <thead>
+            <tr>
+                <th>Cor</th>
+                <th>Medida</th>
+                <th>Quantidade</th> <!-- Nova coluna -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in itens %}
+            <tr>
+                <td>{{ item.cor }}</td>
+                <td>{{ item.medida }}</td>
+                <td>{{ item.quantidade }}</td> <!-- Nova célula -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('adicionar') }}">Adicionar Item</a>
+</body>
+</html>
