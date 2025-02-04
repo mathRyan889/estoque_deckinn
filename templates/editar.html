@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adicionar Item - Estoque de EVA</title>
+    <title>Editar Item</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -52,11 +52,11 @@
             cursor: pointer;
             font-weight: bold;
         }
-        .btn-adicionar {
+        .btn-salvar {
             background-color: #03A9F4;
             color: white;
         }
-        .btn-adicionar:hover {
+        .btn-salvar:hover {
             background-color: #0288D1;
         }
         .btn-voltar {
@@ -73,18 +73,18 @@
 </head>
 <body>
     <div class="container">
-        <h2>Adicionar Novo Item</h2>
-        <form action="{{ url_for('adicionar') }}" method="POST">
-            <label for="cor">Cor do EVA:</label>
-            <input type="text" id="cor" name="cor" required>
-
-            <label for="medida">Medida do EVA:</label>
-            <input type="text" id="medida" name="medida" required>
-
+        <h2>Editar Item ID: {{ item.id }}</h2>
+        <form method="POST">
+            <label for="cor">Cor:</label>
+            <input type="text" id="cor" name="cor" value="{{ item.cor }}" required>
+            
+            <label for="medida">Medida:</label>
+            <input type="text" id="medida" name="medida" value="{{ item.medida }}" required>
+            
             <label for="quantidade">Quantidade:</label>
-            <input type="number" id="quantidade" name="quantidade" min="0" value="0" required>
-
-            <button type="submit" class="btn btn-adicionar">Adicionar Item</button>
+            <input type="number" id="quantidade" name="quantidade" value="{{ item.quantidade }}" min="0" required>
+            
+            <button type="submit" class="btn btn-salvar">Salvar Alterações</button>
         </form>
         <a href="{{ url_for('index') }}" class="btn-voltar">Voltar ao Estoque</a>
     </div>

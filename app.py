@@ -15,7 +15,7 @@ class EstoqueEVA(db.Model):
     quantidade = db.Column(db.Integer, nullable=False, default=0)
 
     def __repr__(self):
-        return (f'<EVA {self.id}: {str(self.cor).upper()} - {float(self.medida)} - {int(self.quantidade)}un>')
+        return (f'<EVA {self.id}: {str(self.cor).upper()} - {str(self.medida).upper()} - {int(self.quantidade)}un>')
 
 def criar_banco():
     with app.app_context():
@@ -45,6 +45,32 @@ def adicionar():
         except Exception as e:
             return f"Erro: {str(e)}", 500
     return render_template('adicionar.html')
+
+@app.route('/editar/<int:id>', methods=['GET', 'POST'])
+def editar(id):
+    item = EstoqueEVA.query.get_or_404(id)
+    
+    if request.method == 'POST':
+        try:
+            item.cor = request.form['cor'].strip().upper()
+            item.medida = request.form['medida'].strip().upper()
+            item.quantidade = int(request.form['quantidade'])
+            db.session.commit()
+            return redirect(url_for('index'))
+        except Exception as e:
+            return f"Erro ao atualizar: {str(e)}", 500
+    
+    return render_template('editar.html', item=item)
+
+@app.route('/excluir/<int:id>', methods=['POST'])
+def excluir(id):
+    item = EstoqueEVA.query.get_or_404(id)
+    try:
+        db.session.delete(item)
+        db.session.commit()
+        return redirect(url_for('index'))
+    except Exception as e:
+        return f"Erro ao excluir: {str(e)}", 500
 
 if __name__ == '__main__':
     criar_banco()

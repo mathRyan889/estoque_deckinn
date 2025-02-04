@@ -6,84 +6,133 @@
     <title>Estoque de EVA</title>
     <style>
         body {
-            background-color: black;
-            color: white;
             font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: white;
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
-        .header {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            font-size: 24px;
-            font-weight: bold;
+        .container {
+            background: #1E1E2F;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #03A9F4;
+            margin-bottom: 20px;
         }
 
         table {
             width: 100%;
-            margin-top: 50px;
+            margin-top: 20px;
             border-collapse: collapse;
         }
 
         th, td {
-            padding: 8px;
+            padding: 12px;
             text-align: left;
-            border: 1px solid white;
-            width: 33%; /* Distribuição igual das colunas */
+            border: 1px solid #03A9F4;
         }
 
         th {
             background-color: #333;
+            color: #03A9F4;
         }
 
         tr:nth-child(even) {
             background-color: #444;
         }
 
-        a {
-            color: white;
-            text-decoration: none;
-            padding: 10px;
+        a, .btn-editar, .btn-excluir {
+            padding: 10px 15px;
+            margin-top: 10px;
             display: inline-block;
-            margin-top: 20px;
-            border: 1px solid white;
-            background-color: #333;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        a {
+            color: white; /* Texto branco */
+            background-color: #03A9F4;
         }
 
         a:hover {
-            background-color: #555;
+            background-color: #0288D1;
         }
 
-        h1 {
-            margin-top: 50px;
+        .btn-editar {
+            background-color: #4CAF50;
+            color: white;
+            border: 1px solid #4CAF50;
+        }
+
+        .btn-editar:hover {
+            background-color: #45a049;
+        }
+
+        .btn-excluir {
+            background-color: #ff4444;
+            color: white;
+            border: 1px solid #ff4444;
+        }
+
+        .btn-excluir:hover {
+            background-color: #f44336;
+        }
+
+        .btn-voltar {
+            display: block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #03A9F4;
+            font-weight: bold;
+        }
+
+        .btn-voltar:hover {
+            color: #0288D1;
         }
     </style>
 </head>
 <body>
-    <div class="header">Deckinn</div>
-
-    <h1>---------------------------------------</h1>
-    <p1>Estoque<p1>
-    <table>
-        <thead>
-            <tr>
-                <th>Cor</th>
-                <th>Medida</th>
-                <th>Quantidade</th> <!-- Nova coluna -->
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in itens %}
-            <tr>
-                <td>{{ item.cor }}</td>
-                <td>{{ item.medida }}</td>
-                <td>{{ item.quantidade }}</td> <!-- Nova célula -->
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <a href="{{ url_for('adicionar') }}">Adicionar Item</a>
+    <div class="container">
+        <h1>Estoque de EVA</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Cor</th>
+                    <th>Medida</th>
+                    <th>Quantidade</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in itens %}
+                <tr>
+                    <td>{{ item.cor }}</td>
+                    <td>{{ item.medida }}</td>
+                    <td>{{ item.quantidade }}</td>
+                    <td>
+                        <a href="{{ url_for('editar', id=item.id) }}" class="btn-editar">Editar</a>
+                        <form action="{{ url_for('excluir', id=item.id) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn-excluir" onclick="return confirm('Tem certeza que deseja excluir este item?')">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ url_for('adicionar') }}" class="btn-voltar">Adicionar Item</a>
+    </div>
 </body>
 </html>
